@@ -47,15 +47,13 @@ register_activation_hook(__FILE__,'twit_blog_install');
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
-    add_option("twit_blog_data", 'Default', '', 'yes');
     add_option("twit_blog_last_update", date('UTC'), '', 'yes');
     add_option("twit_blog_update_delay", '10', '', 'yes');
-    add_option("twit_blog_post_author", '1', '', 'yes');
+    add_option("twit_blog_post_author", 'abc', '', 'yes');
     add_option("twit_blog_post_category", '', '', 'yes');
 }
 
 function twit_blog_remove(){
-    delete_option("twit_blog_data");
     delete_option("twit_blog_last_update");
     delete_option("twit_blog_update_delay");
     delete_option("twit_blog_post_author");
@@ -64,6 +62,18 @@ function twit_blog_remove(){
 
 /* Plugin Settings Page */
 if(is_admin()){ add_action('admin_menu','twit_blog_options_page'); }
-function twit_blog_options_page() { add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog', 'twit_blog_options_html'); }
-function twit_blog_options_html() { include('options-page.php'); }
+
+function twit_blog_register_settings(){
+    register_setting( 'twit_blog_options', 'twit_blog_post_author' );
+    register_setting( 'twit_blog_options', 'twit_blog_post_category' );
+}
+
+function twit_blog_options_page() {
+    add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog-options', 'twit_blog_options_html');
+    add_action( 'admin_init', 'twit_blog_register_settings' );
+}
+
+function twit_blog_options_html() {
+    include('options-page.php');
+}
 
