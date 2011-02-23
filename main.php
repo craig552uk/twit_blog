@@ -37,7 +37,8 @@ add_action('init','twit_blog');
 
 function twit_blog(){
     if (twit_blog_is_update()) {
-        twit_blog_insert_post();
+        twit_blog_insert_post("A Sample Message".date('UTC'), "@craig552uk");
+        echo $user_ID;
     }
 }
 
@@ -49,12 +50,16 @@ function twit_blog_install() {
     add_option("twit_blog_data", 'Default', '', 'yes');
     add_option("twit_blog_last_update", date('UTC'), '', 'yes');
     add_option("twit_blog_update_delay", '10', '', 'yes');
+    add_option("twit_blog_post_author", '1', '', 'yes');
+    add_option("twit_blog_post_category", '', '', 'yes');
 }
 
 function twit_blog_remove(){
     delete_option("twit_blog_data");
     delete_option("twit_blog_last_update");
     delete_option("twit_blog_update_delay");
+    delete_option("twit_blog_post_author");
+    delete_option("twit_blog_post_category");
 }
 
 /* Plugin Settings Page */
