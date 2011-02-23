@@ -30,13 +30,13 @@ THE SOFTWARE.
 */
 
 /* Included functions library */
-include('functions').php;
+include('functions.php');
 
 /* Main Bootstrap Function */
 add_action('init','twit_blog');
 
 function twit_blog(){
-    echo get_option('twit_blog_data');
+    if (is_update()) ? "Update Y " : "Update N ";
 }
 
 /* Plugin Setup & Cleanup */
@@ -44,9 +44,9 @@ register_activation_hook(__FILE__,'twit_blog_install');
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
-    add_option("twit_blog_data", 'Default', '', 'yes')
+    add_option("twit_blog_data", 'Default', '', 'yes');
     add_option("twit_blog_last_update", date('UTC'), '', 'yes');
-    add_option("twit_blog_update_delay", '60', '', 'yes');
+    add_option("twit_blog_update_delay", '10', '', 'yes');
 }
 
 function twit_blog_remove(){
