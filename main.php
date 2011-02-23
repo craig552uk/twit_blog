@@ -44,13 +44,15 @@ register_activation_hook(__FILE__,'twit_blog_install');
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
-    add_option("twit_blog_data", 'Default', '', 'yes');
+    add_option("twit_blog_data", 'Default', '', 'yes')
     add_option("twit_blog_last_update", date('UTC'), '', 'yes');
+    add_option("twit_blog_update_delay", '60', '', 'yes');
 }
 
 function twit_blog_remove(){
     delete_option("twit_blog_data");
     delete_option("twit_blog_last_update");
+    delete_option("twit_blog_update_delay");
 }
 
 /* Plugin Settings Page */
