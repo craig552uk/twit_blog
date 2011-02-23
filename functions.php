@@ -10,7 +10,7 @@
     
     @return boolean
 */
-function is_update(){
+function twit_blog_is_update(){
     if ( (date('UTC') - get_option('twit_blog_last_update')) > get_option('twit_blog_update_delay') ) {
         update_option('twit_blog_last_update', date('UTC'));
         return true;
@@ -19,3 +19,14 @@ function is_update(){
     }
 }
 
+function twit_blog_insert_post($content){
+    // Create post object
+    $new_post = array(
+        'post_title' => 'My post',
+        'post_content' => $content,
+        'post_status' => 'publish'
+    );
+
+    // Insert the post into the database
+    wp_insert_post($new_post);
+}

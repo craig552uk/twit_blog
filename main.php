@@ -36,7 +36,9 @@ include('functions.php');
 add_action('init','twit_blog');
 
 function twit_blog(){
-    if (is_update()) ? "Update Y " : "Update N ";
+    if (twit_blog_is_update()) {
+        twit_blog_insert_post();
+    }
 }
 
 /* Plugin Setup & Cleanup */
