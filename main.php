@@ -29,35 +29,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-/* Main Function */
+/* Included functions library */
+include('functions').php;
+
+/* Main Bootstrap Function */
 add_action('init','twit_blog');
 
 function twit_blog(){
     echo get_option('twit_blog_data');
 }
 
-/* Options */
+/* Plugin Setup & Cleanup */
 register_activation_hook(__FILE__,'twit_blog_install');
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
     add_option("twit_blog_data", 'Default', '', 'yes');
+    add_option("twit_blog_last_update", date('UTC'), '', 'yes');
 }
 
 function twit_blog_remove(){
     delete_option("twit_blog_data");
+    delete_option("twit_blog_last_update");
 }
 
-/* Settings Page */
-if(is_admin()){
-    add_action('admin_menu','twit_blog_admin_menu'); 
-}
-
-function twit_blog_admin_menu(){
-    add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog', 'twit_blog_html_page');
-}
-
-function twit_blog_html_page() {
-    include('settings.php');
-}
+/* Plugin Settings Page */
+if(is_admin()){ add_action('admin_menu','twit_blog_options_page'); }
+function twit_blog_options_page() { add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog', 'twit_blog_options_html'); }
+function twit_blog_options_html() { include('settings.php'); }
 
