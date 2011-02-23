@@ -65,5 +65,5 @@ function twit_blog_remove(){
 /* Plugin Settings Page */
 if(is_admin()){ add_action('admin_menu','twit_blog_options_page'); }
 function twit_blog_options_page() { add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog', 'twit_blog_options_html'); }
-function twit_blog_options_html() { include('settings.php'); }
+function twit_blog_options_html() { include('options-page.php'); }
 

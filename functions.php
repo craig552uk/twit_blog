@@ -29,7 +29,7 @@ function twit_blog_insert_post($tw_content, $tw_author){
         'post_title' => "Tweet from $tw_author",
         'post_content' => $tw_content,
         'post_author' => get_option('twit_blog_post_author'),
-        'post_category' => explode('|', get_option('twit_blog_post_category')),
+        'post_category' => explode(',',get_option('twit_blog_post_category')),
         'post_status' => 'publish'
     );
     wp_insert_post($new_post);
