@@ -10,7 +10,7 @@
     
     @return boolean
 */
-function twit_blog_is_update(){
+function twit_blog_can_update(){
     if ( (date('UTC') - get_option('twit_blog_last_update')) > get_option('twit_blog_update_delay') ) {
         update_option('twit_blog_last_update', date('UTC'));
         return true;

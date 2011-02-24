@@ -36,7 +36,7 @@ include('functions.php');
 add_action('init','twit_blog');
 
 function twit_blog(){
-    if (twit_blog_is_update()) {
+    if (twit_blog_can_update()) {
         twit_blog_insert_post('A Sample Message'.date('UTC'), '@craig552uk');
         echo $user_ID;
     }
