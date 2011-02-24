@@ -20,6 +20,18 @@ function twit_blog_can_update(){
 }
 
 /*
+    Parses plain text adding HTML links to URLs and twitter usernames
+    
+    @param  string Plain text
+    @return string Parsed text
+*/
+function parseLinks($text){
+    $text = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?&//=]+)', '<a href="$0">$0</a>', $text); /* Links */
+    $text = preg_replace('/@[a-zA-Z0-9_-]+/', '<a href="http://twitter.com/$0">$0</a>', $text); /* Twitter Users */
+    return $text;
+}
+    
+/*
     Inserts a new blog post with the specified content identified as being by the specified author
     
     @param string post content
