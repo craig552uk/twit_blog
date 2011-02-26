@@ -1,13 +1,15 @@
 <div class="wrap">
     <?php screen_icon(); echo "<h2>" . get_current_theme() . __( ' Theme Options' ) . "</h2>"; ?>
     
-    <?php if( 'oauth_error' == $_REQUEST['error'] ) : ?>
+    <?php if( isset( $_GET['error'] ) ) : ?>
         <div id="setting-error-oauth_error" class="error settings-error">
-            <p><strong>Cannot connect to Twitter, please try again later.</strong></p>
+            <p><strong><?php echo $error_strings[$_GET['error']]; ?></strong></p>
         </div>
     <?php endif; ?>
     
-    <form method="post" action="options.php">
+    <?php print_r($_SESSION); ?>
+    
+    <form method="post" action="<?php echo home_url(); ?>/wp-content/plugins/wp_twitblog/oauth-authorize.php">
         <?php settings_fields( 'twit_blog_options' ); ?>
         
         <p>To use this plugin you will need a Twitter API key. Getting one is easy, follow these steps...</p>
