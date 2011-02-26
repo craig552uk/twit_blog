@@ -30,50 +30,67 @@ THE SOFTWARE.
 */
 
 /* Included functions library */
-include('functions.php');
+include( 'functions.php' );
 
 /* Main Bootstrap Function */
-add_action('init','twit_blog');
+add_action( 'init','twit_blog' );
 
 function twit_blog(){
-    if (twit_blog_can_update()) {
-        twit_blog_insert_post('A Sample Message'.date('UTC'), '@craig552uk');
-        echo $user_ID;
+    if ( get_option('twit_blog_oauth_authorized')) {
+        /* Tokens Authorized */
+      
+        if ( twit_blog_can_update() ) {
+            /* Insert Post(s) */
+            twit_blog_insert_post( 'A Sample Message'.date('UTC'), '@craig552uk' );
+        } 
     }
 }
 
 /* Plugin Setup & Cleanup */
-register_activation_hook(__FILE__,'twit_blog_install');
+register_activation_hook( __FILE__,'twit_blog_install' );
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
-    add_option('twit_blog_last_update', date('UTC'), '', 'yes');
-    add_option('twit_blog_update_delay', '10', '', 'yes');
-    add_option('twit_blog_post_author', 'abc', '', 'yes');
-    add_option('twit_blog_post_category', '', '', 'yes');
+    add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' );
+    add_option( 'twit_blog_update_delay', '10', '', 'yes' );
+    add_option( 'twit_blog_post_author', 'abc', '', 'yes' );
+    add_option( 'twit_blog_post_category', '', '', 'yes' );
+    add_option( 'twit_blog_consumer_key', '', '', 'yes' );
+    add_option( 'twit_blog_consumer_secret', '', '', 'yes' );
+    add_option( 'twit_blog_oauth_authorized', FALSE, '', 'yes' );
 }
 
 function twit_blog_remove(){
-    delete_option('twit_blog_last_update');
-    delete_option('twit_blog_update_delay');
-    delete_option('twit_blog_post_author');
-    delete_option('twit_blog_post_category');
+    delete_option( 'twit_blog_last_update' );
+    delete_option( 'twit_blog_update_delay' );
+    delete_option( 'twit_blog_post_author' );
+    delete_option( 'twit_blog_post_category' );
+    delete_option( 'twit_blog_consumer_key' );
+    delete_option( 'twit_blog_consumer_secret' );
+    delete_option( 'twit_blog_oauth_authorized' );
 }
 
 /* Plugin Settings Page */
-if(is_admin()){ add_action('admin_menu','twit_blog_options_page'); }
+if(is_admin()){ add_action( 'admin_menu','twit_blog_options_page' ); }
 
 function twit_blog_register_settings(){
     register_setting( 'twit_blog_options', 'twit_blog_post_author' );
     register_setting( 'twit_blog_options', 'twit_blog_post_category' );
+    register_setting( 'twit_blog_options', 'twit_blog_consumer_key' );
+    register_setting( 'twit_blog_options', 'twit_blog_consumer_secret' );
 }
 
 function twit_blog_options_page() {
-    add_options_page('Twit Blog', 'Twit Blog', 'administrator', 'twit-blog-options', 'twit_blog_options_html');
+    add_options_page( 'Twit Blog', 'Twit Blog', 'administrator', 'twit-blog-options', 'twit_blog_options_html' );
     add_action( 'admin_init', 'twit_blog_register_settings' );
 }
 
 function twit_blog_options_html() {
-    include('options-page.php');
+    if ( ('' != get_option('twit_blog_consumer_key')) 
+      && ('' != get_option('twit_blog_consumer_secret'))) {
+        include( 'options-page.php' );
+    }else{
+        include( 'oauth-page.php' );
+    }
 }
 
