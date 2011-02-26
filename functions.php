@@ -48,6 +48,18 @@ function twit_blog_insert_post($tw_content, $tw_author){
 }
 
 /*
+    Returns text with links wrapped in <a href=""> tags
+    
+    @param  string Plain text
+    @return string Text with HTML anchor tags
+*/
+function parseLinks($text){
+    $text = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?&//=]+)', '<a href="$0">$0</a>', $text); /* Links */
+    //$text = preg_replace('/@[a-zA-Z0-9_-]+/', '<a href="http://twitter.com/$0">$0</a>', $text); /* Twitter Users */
+    return $text;
+}
+    
+/*
     Return the current page url
     http://www.webcheatsheet.com/PHP/get_current_page_url.php
 */
