@@ -32,6 +32,8 @@
               </tbody>
         </table>
         
+        <input type="hidden" name="twit_blog_return_url" value="<?php echo curPageURL();?>" />
+        
         <p class="submit"><input type="submit" id="submit" value="Connect To Twitter" class="button-primary" /></p>
     </form>
     
