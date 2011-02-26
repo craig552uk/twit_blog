@@ -31,21 +31,41 @@ THE SOFTWARE.
 
 /* Included functions library */
 include( 'functions.php' );
+include_once( 'twitteroauth/twitteroauth.php' );
 
 /* Main Bootstrap Function */
 add_action( 'init','twit_blog' );
 
 function twit_blog(){
     if ( get_option('twit_blog_oauth_authorized') ) {
-        /* Tokens Authorized */
-      
+        /* Authorized */
+
         if ( twit_blog_can_update() ) {
-            /* Insert Post(s) */
-            twit_blog_insert_post( 'A Sample Message'.date('UTC'), '@craig552uk' );
+            /* Connect to Twitter */
+            $connection = new TwitterOAuth(get_option('twit_blog_consumer_key'), get_option('twit_blog_consumer_secret'), get_option('twit_blog_token_key'), get_option('twit_blog_token_secret'));
+            
+            /* Get Favourites */
+            $result = $connection->get('favorites/craig552uk');
+            
+            if (!is_array($result)) { $result = array(); }
+            
+            foreach ( array_reverse($result) as $tweet ) {
+                
+                /* If tweet is new */
+                if ( 0 == substr_count( get_option( 'twit_blog_post_id_list' ), $tweet->id_str ) ) {
+                
+                    /* Create Blog Post */
+                    twit_blog_insert_post( $tweet );
+                    
+                    /* Store tweet id in list */
+                    $list = $tweet->id_str.','.get_option( 'twit_blog_post_id_list' );
+                    update_option( 'twit_blog_post_id_list', $list );
+                }
+            }
         } 
     }
 }
-
+ 
 /* Plugin Setup & Cleanup */
 register_activation_hook( __FILE__,'twit_blog_install' );
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
@@ -53,6 +73,7 @@ register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 function twit_blog_install() {
     add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' );
     add_option( 'twit_blog_update_delay', '10', '', 'yes' );
+    add_option( 'twit_blog_post_id_list', '', '', 'yes' );
     add_option( 'twit_blog_post_author', 'abc', '', 'yes' );
     add_option( 'twit_blog_post_category', '', '', 'yes' );
     add_option( 'twit_blog_consumer_key', '', '', 'yes' );
@@ -65,6 +86,7 @@ function twit_blog_install() {
 function twit_blog_remove(){
     delete_option( 'twit_blog_last_update' );
     delete_option( 'twit_blog_update_delay' );
+    delete_option( 'twit_blog_post_id_list' );
     delete_option( 'twit_blog_post_author' );
     delete_option( 'twit_blog_post_category' );
     delete_option( 'twit_blog_consumer_key' );

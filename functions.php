@@ -34,17 +34,27 @@ function parseLinks($text){
 /*
     Inserts a new blog post with the specified content identified as being by the specified author
     
-    @param string post content
+    @param tweet object returned from REST API
 */
-function twit_blog_insert_post($tw_content, $tw_author){
+function twit_blog_insert_post($tweet){
+    /* Assemble post data */
     $new_post = array(
-        'post_title' => "Tweet from $tw_author",
-        'post_content' => $tw_content,
+        'post_title' => "Tweet from @".$tweet->user->screen_name,
+        'post_content' => parseLinks($tweet->text),
         'post_author' => get_option('twit_blog_post_author'),
         'post_category' => explode(',',get_option('twit_blog_post_category')),
+        'post_date' => date('Y-m-d H:i:s'),
         'post_status' => 'publish'
     );
-    wp_insert_post($new_post);
+    
+    /* Create post */
+    $id = wp_insert_post($new_post);
+    
+    /* Save tweet data in post meta */
+    add_post_meta($id, 'user_screen_name', $tweet->user->screen_name );
+    add_post_meta($id, 'user_profile_image_url', $tweet->user->profile_image_url );
+    add_post_meta($id, 'id_str', $tweet->id_str );
+    add_post_meta($id, 'created_at', $tweet->created_at);
 }
    
 /*
