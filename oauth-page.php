@@ -1,9 +1,7 @@
 <div class="wrap">
-    <h2>Twit Post Options</h2>
+    <h2>Twit Blog Options</h2>
     <form method="post" action="options.php">
         <?php settings_fields( 'twit_blog_options' ); ?>
-        
-        <h3>OAuth Options</h3>
         
         <p>To use this plugin you will need a Twitter API key. Getting one is easy, follow these steps...</p>
         
