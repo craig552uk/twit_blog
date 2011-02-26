@@ -36,7 +36,7 @@ include( 'functions.php' );
 add_action( 'init','twit_blog' );
 
 function twit_blog(){
-    if ( get_option('twit_blog_oauth_authorized')) {
+    if ( get_option('twit_blog_oauth_authorized') ) {
         /* Tokens Authorized */
       
         if ( twit_blog_can_update() ) {
@@ -86,8 +86,7 @@ function twit_blog_options_page() {
 }
 
 function twit_blog_options_html() {
-    if ( ('' != get_option('twit_blog_consumer_key')) 
-      && ('' != get_option('twit_blog_consumer_secret'))) {
+    if ( get_option('twit_blog_oauth_authorized') ) {
         include( 'options-page.php' );
     }else{
         include( 'oauth-page.php' );
