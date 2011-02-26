@@ -1,5 +1,5 @@
 <div class="wrap">
-    <?php screen_icon(); echo "<h2>" . get_current_theme() . __( ' Theme Options' ) . "</h2>"; ?>
+    <?php screen_icon(); echo "<h2>Twit Blog Options</h2>"; ?>
     
     <?php if( isset( $_GET['error'] ) ) : ?>
         <div id="setting-error-oauth_error" class="error settings-error">
