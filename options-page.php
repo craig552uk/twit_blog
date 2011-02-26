@@ -41,7 +41,7 @@
                 </tr>
               </tbody>
         </table>
-        
+                
         <p class="submit"><input type="submit" id="submit" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
     </form>
     

@@ -61,6 +61,8 @@ function twit_blog_install() {
     add_option( 'twit_blog_post_category', '', '', 'yes' );
     add_option( 'twit_blog_consumer_key', '', '', 'yes' );
     add_option( 'twit_blog_consumer_secret', '', '', 'yes' );
+    add_option( 'twit_blog_token_key', '', '', 'yes' );
+    add_option( 'twit_blog_token_secret', '', '', 'yes' );
     add_option( 'twit_blog_oauth_authorized', FALSE, '', 'yes' );
 }
 
@@ -71,6 +73,8 @@ function twit_blog_remove(){
     delete_option( 'twit_blog_post_category' );
     delete_option( 'twit_blog_consumer_key' );
     delete_option( 'twit_blog_consumer_secret' );
+    delete_option( 'twit_blog_token_key' );
+    delete_option( 'twit_blog_token_secret' );
     delete_option( 'twit_blog_oauth_authorized' );
 }
 
