@@ -3,7 +3,7 @@
     
     <?php if( isset( $_GET['error'] ) ) : ?>
         <div id="setting-error-oauth_error" class="error settings-error">
-            <p><strong><?php echo $error_strings[$_GET['error']]; ?></strong></p>
+            <p><strong>Cannot Connect to Twitter. Please check your codes and try again.</strong></p>
         </div>
     <?php endif; ?>
     
