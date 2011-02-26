@@ -1,6 +1,24 @@
+<?php
+    /* Set defaults if necessary */
+    $_REQUEST['updated'] = ($_REQUEST['updated']) ? true               : false;
+    $_REQUEST['error']   = ($_REQUEST['error'])   ? $_REQUEST['error'] : '';
+    
+    if ( $_REQUEST['updated'] ) {
+        echo '<p>'.get_option('twit_blog_consumer_key').'</p>';
+        echo '<p>'.get_option('twit_blog_consumer_secret').'</p>';
+    }
+?>
+
 <div class="wrap">
-    <h2>Twit Blog Options</h2>
-    <form method="post" action="<?php echo home_url(); ?>/wp-content/plugins/wp_twitblog/oauth-authorize.php">
+    <?php screen_icon(); echo "<h2>" . get_current_theme() . __( ' Theme Options' ) . "</h2>"; ?>
+    
+    <?php if( 'oauth_error' == $_REQUEST['error'] ) : ?>
+        <div id="setting-error-oauth_error" class="error settings-error">
+            <p><strong>Cannot connect to Twitter, please try again later.</strong></p>
+        </div>
+    <?php endif; ?>
+    
+    <form method="post" action="options.php">
         <?php settings_fields( 'twit_blog_options' ); ?>
         
         <p>To use this plugin you will need a Twitter API key. Getting one is easy, follow these steps...</p>
