@@ -72,7 +72,7 @@ register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
     add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' );
-    add_option( 'twit_blog_update_delay', '10', '', 'yes' );
+    add_option( 'twit_blog_update_delay', '60', '', 'yes' );
     add_option( 'twit_blog_post_id_list', '', '', 'yes' );
     add_option( 'twit_blog_post_author', '0', '', 'yes' );
     add_option( 'twit_blog_post_category', '0', '', 'yes' );
