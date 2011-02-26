@@ -46,3 +46,19 @@ function twit_blog_insert_post($tw_content, $tw_author){
     );
     wp_insert_post($new_post);
 }
+
+/*
+    Return the current page url
+    http://www.webcheatsheet.com/PHP/get_current_page_url.php
+*/
+function curPageURL() {
+    $pageURL = 'http';
+    if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
+}
