@@ -89,7 +89,7 @@ function twit_blog_options_html() {
     if ( get_option('twit_blog_oauth_authorized') ) {
         include( 'options-page.php' );
     }else{
-        include( 'oauth-page.php' );
+        include( 'oauth-authorize.php' );
     }
 }
 

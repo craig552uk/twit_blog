@@ -1,14 +1,3 @@
-<?php
-    /* Set defaults if necessary */
-    $_REQUEST['updated'] = ($_REQUEST['updated']) ? true               : false;
-    $_REQUEST['error']   = ($_REQUEST['error'])   ? $_REQUEST['error'] : '';
-    
-    if ( $_REQUEST['updated'] ) {
-        echo '<p>'.get_option('twit_blog_consumer_key').'</p>';
-        echo '<p>'.get_option('twit_blog_consumer_secret').'</p>';
-    }
-?>
-
 <div class="wrap">
     <?php screen_icon(); echo "<h2>" . get_current_theme() . __( ' Theme Options' ) . "</h2>"; ?>
     
