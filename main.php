@@ -32,6 +32,10 @@ THE SOFTWARE.
 /* Included functions library */
 include( 'functions.php' );
 
+/* Error Messages */
+
+$error_strings['bad_codes'] = "Cannot Connect to Twitter. Please check your codes and try again.";
+
 /* Main Bootstrap Function */
 add_action( 'init','twit_blog' );
 
@@ -86,10 +90,12 @@ function twit_blog_options_page() {
 }
 
 function twit_blog_options_html() {
+    global $error_strings;
+    
     if ( get_option('twit_blog_oauth_authorized') ) {
         include( 'options-page.php' );
     }else{
-        include( 'oauth-authorize.php' );
+        include( 'oauth-page.php' );
     }
 }
 
