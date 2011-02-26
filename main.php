@@ -121,3 +121,18 @@ function twit_blog_options_html() {
     }
 }
 
+/* Plugin settings link on Plugins list */
+
+add_filter('plugin_action_links', 'twit_blog_settings_link', 10, 2 );
+
+function twit_blog_settings_link($links, $file){
+    static $this_plugin;
+    if (!$this_plugin) $this_plugin = plugin_basename(__FILE__);
+
+    if ($file == $this_plugin){
+        $settings_link = '<a href="options-general.php?page=twit-blog-options">Settings</a>';
+        array_unshift($links, $settings_link);
+    }
+    return $links;
+}
+
