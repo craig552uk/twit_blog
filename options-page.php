@@ -8,15 +8,35 @@
                 <tr valign="top">
                     <th scope="row"><label for="twit_blog_post_author">Post Author</label></th>
                     <td>
-                        <input type="text" name="twit_blog_post_author" value="<?php echo get_option('twit_blog_post_author'); ?>" class="regular-text" />
+                        <select type="text" name="twit_blog_post_author" class="regular-text">
+                        <?php
+                            foreach(twit_blog_get_users() as $user){
+                                if ( $user->ID == get_option('twit_blog_post_author') ) {
+                                    echo '<option value="'.$user->ID.'" selected="selected">'.ucwords($user->user_nicename).'</option>';
+                                }else{
+                                    echo '<option value="'.$user->ID.'" >'.ucwords($user->user_nicename).'</option>';
+                                }
+                            }
+                        ?>
+                        </select>
                         <span class="description">Choose the author to post as</span>
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><label for="twit_blog_post_category">Category</label></th>
                     <td>
-                        <input type="text" name="twit_blog_post_category" value="<?php echo get_option('twit_blog_post_category'); ?>" class="regular-text"/>
-                        <span class="description">Select categories to create posts in</span>
+                        <select type="text" name="twit_blog_post_category" class="regular-text">
+                        <?php
+                            foreach(get_categories(array( 'hide_empty' => 0 )) as $category){
+                                if ( $category->cat_ID == get_option('twit_blog_post_category') ) {
+                                    echo '<option value="'.$category->cat_ID.'" selected="selected">'.ucwords($category->category_nicename).'</option>';
+                                }else{
+                                    echo '<option value="'.$category->cat_ID.'" >'.ucwords($category->category_nicename).'</option>';
+                                }
+                            }
+                        ?>
+                        </select>
+                        <span class="description">Select category to create posts in</span>
                     </td>
                 </tr>
               </tbody>

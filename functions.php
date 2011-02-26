@@ -72,3 +72,18 @@ function curPageURL() {
     }
     return $pageURL;
 }
+
+/*
+    Get array of user data
+    
+    @return array
+*/
+function twit_blog_get_users(){
+    global $wpdb;
+    $return = array();
+    $userIDs = $wpdb->get_col( $wpdb->prepare("SELECT $wpdb->users.ID FROM $wpdb->users ORDER BY %s ASC", 'user_nicename' ) );
+    foreach ( $userIDs as $userID ){
+        $return[] = get_userdata($userID);
+    }
+    return $return;
+}
