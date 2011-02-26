@@ -1,6 +1,6 @@
 <div class="wrap">
     <h2>Twit Blog Options</h2>
-    <form method="post" action="options.php">
+    <form method="post" action="<?php echo home_url(); ?>/wp-content/plugins/wp_twitblog/oauth-authorize.php">
         <?php settings_fields( 'twit_blog_options' ); ?>
         
         <p>To use this plugin you will need a Twitter API key. Getting one is easy, follow these steps...</p>
