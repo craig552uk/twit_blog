@@ -74,8 +74,8 @@ function twit_blog_install() {
     add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' );
     add_option( 'twit_blog_update_delay', '10', '', 'yes' );
     add_option( 'twit_blog_post_id_list', '', '', 'yes' );
-    add_option( 'twit_blog_post_author', 'abc', '', 'yes' );
-    add_option( 'twit_blog_post_category', '', '', 'yes' );
+    add_option( 'twit_blog_post_author', '0', '', 'yes' );
+    add_option( 'twit_blog_post_category', '0', '', 'yes' );
     add_option( 'twit_blog_consumer_key', '', '', 'yes' );
     add_option( 'twit_blog_consumer_secret', '', '', 'yes' );
     add_option( 'twit_blog_token_key', '', '', 'yes' );
