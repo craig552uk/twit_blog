@@ -6,10 +6,28 @@
         <table class="form-table">
             <tbody>
                 <tr valign="top">
-                    <th scope="row"><label for="twit_blog_twitter_account">Twitter Account</label></th>
+                    <th scope="row"><label for="twit_blog_twitter_account">Twitter User</label></th>
                     <td>
                         <input type="text" name="twit_blog_twitter_account" class="regular-text" value="<?php echo get_option( 'twit_blog_twitter_account' ); ?>"/>
                         <span class="description">Blog tweets from this twitter account</span>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Blog Tweets<br/></th>
+                    <td>
+                        <span class="description">Choose which tweets to blog</span>
+                        <fieldset>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="none" <?php echo twit_blog_twitter_data_checked('none'); ?>/><span>None (off)</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="user_timeline" <?php echo twit_blog_twitter_data_checked('user_timeline'); ?>/><span>User timeline</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="mentions" <?php echo twit_blog_twitter_data_checked('mentions'); ?>/><span>Mentions</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="retweeted_by_me" <?php echo twit_blog_twitter_data_checked('retweeted_by_me'); ?>/><span>Retweeted by me</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="retweeted_to_me" <?php echo twit_blog_twitter_data_checked('retweeted_to_me'); ?>/><span>Retweeted to me</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="retweets_of_me" <?php echo twit_blog_twitter_data_checked('retweets_of_me'); ?>/><span>Retweets of me</span></label><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="favourites" <?php echo twit_blog_twitter_data_checked('favourites'); ?>/><span>Favourites</span></label><br/>
+                            <!--<label><input type="radio" name="twit_blog_twitter_data" value="custom" <?php echo twit_blog_twitter_data_checked('custom'); ?>/><span>Custom filter:</span></label>
+                            <input type="text" name="twit_blog_twitter_data_custom" value="<?php echo get_option( 'twit_blog_twitter_data_custom' ); ?>"/>
+                            <span class="description">Any tweet in above account containing this text</span><br/>-->
+                        </fieldset>
                     </td>
                 </tr>
               </tbody>

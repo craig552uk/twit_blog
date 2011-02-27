@@ -87,3 +87,15 @@ function twit_blog_get_users(){
     }
     return $return;
 }
+
+/*
+    Set default option for twit_blog_twitter_data
+    
+    @param string the value being tested
+    @return string 'checked="checked"' if value is selected
+*/
+function twit_blog_twitter_data_checked($value){
+    if ( $value == get_option( 'twit_blog_twitter_data' ) ){
+        return 'checked="checked"';
+    }
+}
