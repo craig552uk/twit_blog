@@ -56,8 +56,10 @@ if(!isset($_GET['oauth_verifier'])){
     update_option('twit_blog_token_secret', $access_token['oauth_token_secret']);
     update_option('twit_blog_twitter_account', $access_token['screen_name']);
 
-    if ( '' != $access_token['screen_name'] ) {
+    if ( isset( $access_token['screen_name'] ) ) {
         update_option('twit_blog_oauth_authorized', true);
+    }else{
+        header('Location: ' . $_SESSION['return_url'] . '&error=bad_response');
     }
     
     echo '<pre>'; print_r($_REQUEST); print_r($access_token); echo '</pre>';
