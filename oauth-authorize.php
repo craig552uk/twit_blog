@@ -42,7 +42,7 @@ if(!isset($_GET['oauth_verifier'])){
 }else{
     /* Handle response, then get access token */
     $connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
-    $access_token = $connection->getAccessToken($_GET['oauth_verifier']);
+    $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);   
     
     $return_url = $_SESSION['return_url'];
     
@@ -55,6 +55,8 @@ if(!isset($_GET['oauth_verifier'])){
     update_option('twit_blog_token_key', $access_token['oauth_token']);
     update_option('twit_blog_token_secret', $access_token['oauth_token_secret']);
     update_option('twit_blog_oauth_authorized', true);
+    
+    //echo '<pre>'; print_r($_REQUEST); print_r($access_token); echo '</pre>';
     
     /* Return to Wordpress */
     header('Location: ' . $return_url );
