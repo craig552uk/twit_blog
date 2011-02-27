@@ -67,7 +67,7 @@ function twit_blog(){
             /* Filter results */
             $tmp_result = array();
             foreach ( $result as $tweet ){
-                if ( 0 != substr_count( strtoupper($tweet->text), strtoupper(get_option( 'twit_blog_twitter_data_custom' ) ) ) ) {
+                if ( 0 != substr_count( strtoupper($tweet->text), strtoupper(get_option( 'twit_blog_twitter_filter' ) ) ) ) {
                     //echo '<p>'.substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ).' "'.get_option( 'twit_blog_twitter_data_custom' ).'" "'.$tweet->text.'"</p>';
                     $tmp_result[] = $tweet;
                 }
