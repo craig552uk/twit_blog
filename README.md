@@ -7,6 +7,8 @@ A WordPress plugin to create posts from the favourites in a twitter account.
 **Date**: 23 Feb 2011   
 **Version**: 0.1   
 
+Including **twitteroauth.php** by Abraham Williams (abraham@abrah.am) http://abrah.am
+
 Pulls tweets from an authenticated twitter account.
 
 Can create blog posts from...
