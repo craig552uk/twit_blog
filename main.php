@@ -58,8 +58,16 @@ function twit_blog(){
             }elseif ( 'favourites' == get_option( 'twit_blog_twitter_data' ) ) {
                 $result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
             }elseif ( 'custom' == get_option( 'twit_blog_twitter_data' ) ) {
-                $filter = get_option( 'twit_blog_twitter_data_custom' );
-                //$result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
+                $result = $connection->get('statuses/user_timeline');
+                if (!is_array($result)) { $result = array(); }
+                $tmp_result = array();
+                foreach ( $result as $tweet ){
+                    if ( 0 != substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ) ) {
+                        //echo '<p>'.substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ).' "'.get_option( 'twit_blog_twitter_data_custom' ).'" "'.$tweet->text.'"</p>';
+                        $tmp_result[] = $tweet;
+                    }
+                }
+                $result = $tmp_result;
             }
             
             if (!is_array($result)) { $result = array(); }
@@ -76,9 +84,8 @@ function twit_blog(){
                     $list = $tweet->id_str.','.get_option( 'twit_blog_post_id_list' );
                     update_option( 'twit_blog_post_id_list', $list );
                 }
-            }
-            
-            echo '<pre>'; print_r($result); echo '</pre>';
+            }            
+            //echo '<pre>'; print_r($result); echo '</pre>'; /* Show twitter response data */
         } 
     }
 }
@@ -97,8 +104,8 @@ function twit_blog_install() {
     add_option( 'twit_blog_consumer_secret', '', '', 'yes' );
     add_option( 'twit_blog_token_key', '', '', 'yes' );
     add_option( 'twit_blog_token_secret', '', '', 'yes' );
-    add_option( 'twit_blog_oauth_authorized', FALSE, '', 'yes' );
-    add_option( 'twit_blog_twitter_account', 'craig552uk', '', 'yes' );
+    add_option( 'twit_blog_oauth_authorized', '0', '', 'yes' );
+    add_option( 'twit_blog_twitter_account', '', '', 'yes' );
     add_option( 'twit_blog_twitter_data', 'none', '', 'yes' );
     add_option( 'twit_blog_twitter_data_custom', '#custom', '', 'yes' );
 }
@@ -127,7 +134,6 @@ function twit_blog_register_settings(){
     register_setting( 'twit_blog_options', 'twit_blog_post_category' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_key' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_secret' );
-    register_setting( 'twit_blog_options', 'twit_blog_twitter_account' );
     register_setting( 'twit_blog_options', 'twit_blog_twitter_data' );
     register_setting( 'twit_blog_options', 'twit_blog_twitter_data_custom' );
 }
