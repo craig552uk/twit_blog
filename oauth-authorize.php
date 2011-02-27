@@ -62,7 +62,7 @@ if(!isset($_GET['oauth_verifier'])){
         header('Location: ' . $_SESSION['return_url'] . '&error=bad_response');
     }
     
-    echo '<pre>'; print_r($_REQUEST); print_r($access_token); echo '</pre>';
+    //echo '<pre>'; print_r($_REQUEST); print_r($access_token); echo '</pre>';
     
     /* Return to Wordpress */
     header('Location: ' . $return_url );
