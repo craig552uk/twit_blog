@@ -16,11 +16,15 @@
                             <label><input type="radio" name="twit_blog_twitter_data" value="retweeted_by_me" <?php echo twit_blog_twitter_data_checked('retweeted_by_me'); ?>/><span>Retweeted by me</span></label><br/>
                             <label><input type="radio" name="twit_blog_twitter_data" value="retweeted_to_me" <?php echo twit_blog_twitter_data_checked('retweeted_to_me'); ?>/><span>Retweeted to me</span></label><br/>
                             <label><input type="radio" name="twit_blog_twitter_data" value="retweets_of_me" <?php echo twit_blog_twitter_data_checked('retweets_of_me'); ?>/><span>Retweets of me</span></label><br/>
-                            <label><input type="radio" name="twit_blog_twitter_data" value="favourites" <?php echo twit_blog_twitter_data_checked('favourites'); ?>/><span>Favourites</span></label><br/>
-                            <label><input type="radio" name="twit_blog_twitter_data" value="custom" <?php echo twit_blog_twitter_data_checked('custom'); ?>/><span>Custom filter:</span></label>
-                            <input type="text" name="twit_blog_twitter_data_custom" value="<?php echo get_option( 'twit_blog_twitter_data_custom' ); ?>"/>
-                            <span class="description">Any tweet in above account containing this text</span><br/>
+                            <label><input type="radio" name="twit_blog_twitter_data" value="favourites" <?php echo twit_blog_twitter_data_checked('favourites'); ?>/><span>Favourites</span></label>
                         </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><label for="twit_blog_twitter_data_custom">Filter Tweets</label></th>
+                    <td>
+                        <input type="text" name="twit_blog_twitter_data_custom" value="<?php echo get_option( 'twit_blog_twitter_data_custom' ); ?>" class="regular-text"/>
+                        <span class="description">Only post tweets containing this text (e.g. #tag)</span>
                     </td>
                 </tr>
               </tbody>

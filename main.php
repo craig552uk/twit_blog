@@ -57,20 +57,20 @@ function twit_blog(){
                 $result = $connection->get('statuses/retweets_of_me');
             }elseif ( 'favourites' == get_option( 'twit_blog_twitter_data' ) ) {
                 $result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
-            }elseif ( 'custom' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/user_timeline');
-                if (!is_array($result)) { $result = array(); }
-                $tmp_result = array();
-                foreach ( $result as $tweet ){
-                    if ( 0 != substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ) ) {
-                        //echo '<p>'.substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ).' "'.get_option( 'twit_blog_twitter_data_custom' ).'" "'.$tweet->text.'"</p>';
-                        $tmp_result[] = $tweet;
-                    }
-                }
-                $result = $tmp_result;
             }
             
+            /* Default empty array if needed */
             if (!is_array($result)) { $result = array(); }
+            
+            /* Filter results */
+            $tmp_result = array();
+            foreach ( $result as $tweet ){
+                if ( 0 != substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ) ) {
+                    //echo '<p>'.substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ).' "'.get_option( 'twit_blog_twitter_data_custom' ).'" "'.$tweet->text.'"</p>';
+                    $tmp_result[] = $tweet;
+                }
+            }
+            $result = $tmp_result;
             
             foreach ( array_reverse($result) as $tweet ) {
                 
@@ -107,7 +107,7 @@ function twit_blog_install() {
     add_option( 'twit_blog_oauth_authorized', '0', '', 'yes' );
     add_option( 'twit_blog_twitter_account', '', '', 'yes' );
     add_option( 'twit_blog_twitter_data', 'none', '', 'yes' );
-    add_option( 'twit_blog_twitter_data_custom', '#custom', '', 'yes' );
+    add_option( 'twit_blog_twitter_data_custom', '', '', 'yes' );
 }
 
 function twit_blog_remove(){
