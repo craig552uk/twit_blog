@@ -47,6 +47,8 @@ function twit_blog(){
             /* Get Tweets */
             if ( 'user_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
                 $result = $connection->get('statuses/user_timeline');
+            }elseif ( 'friends_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
+                $result = $connection->get('statuses/friends_timeline');
             }elseif ( 'mentions' == get_option( 'twit_blog_twitter_data' ) ) {
                 $result = $connection->get('statuses/mentions');
             }elseif ( 'retweeted_by_me' == get_option( 'twit_blog_twitter_data' ) ) {
@@ -107,7 +109,7 @@ function twit_blog_install() {
     add_option( 'twit_blog_oauth_authorized', '0', '', 'yes' );
     add_option( 'twit_blog_twitter_account', '', '', 'yes' );
     add_option( 'twit_blog_twitter_data', 'none', '', 'yes' );
-    add_option( 'twit_blog_twitter_data_custom', '', '', 'yes' );
+    add_option( 'twit_blog_twitter_filter', '', '', 'yes' );
 }
 
 function twit_blog_remove(){
@@ -123,7 +125,7 @@ function twit_blog_remove(){
     delete_option( 'twit_blog_oauth_authorized' );
     delete_option( 'twit_blog_twitter_account' );
     delete_option( 'twit_blog_twitter_data' );
-    delete_option( 'twit_blog_twitter_data_custom' );
+    delete_option( 'twit_blog_twitter_filter' );
 }
 
 /* Plugin Settings Page */
@@ -135,7 +137,7 @@ function twit_blog_register_settings(){
     register_setting( 'twit_blog_options', 'twit_blog_consumer_key' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_secret' );
     register_setting( 'twit_blog_options', 'twit_blog_twitter_data' );
-    register_setting( 'twit_blog_options', 'twit_blog_twitter_data_custom' );
+    register_setting( 'twit_blog_options', 'twit_blog_twitter_filter' );
 }
 
 function twit_blog_options_page() {
