@@ -45,7 +45,7 @@ function twit_blog(){
             $connection = new TwitterOAuth(get_option('twit_blog_consumer_key'), get_option('twit_blog_consumer_secret'), get_option('twit_blog_token_key'), get_option('twit_blog_token_secret'));
             
             /* Get Favourites */
-            $result = $connection->get('favorites/craig552uk');
+            $result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
             
             if (!is_array($result)) { $result = array(); }
             
@@ -81,6 +81,7 @@ function twit_blog_install() {
     add_option( 'twit_blog_token_key', '', '', 'yes' );
     add_option( 'twit_blog_token_secret', '', '', 'yes' );
     add_option( 'twit_blog_oauth_authorized', FALSE, '', 'yes' );
+    add_option( 'twit_blog_twitter_account', 'craig552uk', '', 'yes' );
 }
 
 function twit_blog_remove(){
@@ -94,6 +95,7 @@ function twit_blog_remove(){
     delete_option( 'twit_blog_token_key' );
     delete_option( 'twit_blog_token_secret' );
     delete_option( 'twit_blog_oauth_authorized' );
+    delete_option( 'twit_blog_twitter_account' );
 }
 
 /* Plugin Settings Page */
@@ -104,6 +106,7 @@ function twit_blog_register_settings(){
     register_setting( 'twit_blog_options', 'twit_blog_post_category' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_key' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_secret' );
+    register_setting( 'twit_blog_options', 'twit_blog_twitter_account' );
 }
 
 function twit_blog_options_page() {
