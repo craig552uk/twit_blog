@@ -29,5 +29,3 @@ Stores tweet information in post meta for use by custom themes.
 -   Tweet Author
 -   Tweet ID Number
 -   Author Profile image URL
-
-
