@@ -9,7 +9,7 @@
     
     <?php print_r($_SESSION); ?>
     
-    <form method="post" action="<?php echo home_url(); ?>/wp-content/plugins/wp_twitblog/oauth-authorize.php">
+    <form method="post" action="<?php echo home_url(); ?>/wp-content/plugins/twitblog/oauth-authorize.php">
         <?php settings_fields( 'twit_blog_options' ); ?>
         
         <p>To use this plugin you will need a Twitter API key. Getting one is easy, follow these steps...</p>
