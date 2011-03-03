@@ -4,6 +4,7 @@
 */
 
 /*
+    --- DEPRECATED --- Now using wp_schedule_event() ---
     Checks to see if the last update was longer then X seconds ago
     If so return true and resets the clock
     Otherwise return false

@@ -34,61 +34,57 @@ include( 'functions.php' );
 include_once( 'twitteroauth/twitteroauth.php' );
 
 /* Main Bootstrap Function */
-add_action( 'init','twit_blog' );
-
 function twit_blog(){
     if ( get_option('twit_blog_oauth_authorized') ) {
-        /* Authorized */
 
-        if ( twit_blog_can_update() ) {
-            /* Connect to Twitter */
-            $connection = new TwitterOAuth(get_option('twit_blog_consumer_key'), get_option('twit_blog_consumer_secret'), get_option('twit_blog_token_key'), get_option('twit_blog_token_secret'));
-            
-            /* Get Tweets */
-            if ( 'user_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/user_timeline');
-            }elseif ( 'friends_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/friends_timeline');
-            }elseif ( 'mentions' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/mentions');
-            }elseif ( 'retweeted_by_me' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/retweeted_by_me');
-            }elseif ( 'retweeted_to_me' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/retweeted_to_me');
-            }elseif ( 'retweets_of_me' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('statuses/retweets_of_me');
-            }elseif ( 'favourites' == get_option( 'twit_blog_twitter_data' ) ) {
-                $result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
+        /* Connect to Twitter */
+        $connection = new TwitterOAuth(get_option('twit_blog_consumer_key'), 
+                                       get_option('twit_blog_consumer_secret'),
+                                       get_option('twit_blog_token_key'),
+                                       get_option('twit_blog_token_secret'));
+        
+        /* Get Tweets */
+        if ( 'user_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/user_timeline');
+        }elseif ( 'friends_timeline' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/friends_timeline');
+        }elseif ( 'mentions' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/mentions');
+        }elseif ( 'retweeted_by_me' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/retweeted_by_me');
+        }elseif ( 'retweeted_to_me' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/retweeted_to_me');
+        }elseif ( 'retweets_of_me' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('statuses/retweets_of_me');
+        }elseif ( 'favourites' == get_option( 'twit_blog_twitter_data' ) ) {
+            $result = $connection->get('favorites/'.get_option('twit_blog_twitter_account'));
+        }
+        
+        /* Default empty array if needed */
+        if (!is_array($result)) { $result = array(); }
+        
+        /* Filter results */
+        $tmp_result = array();
+        foreach ( $result as $tweet ){
+            if ( 0 != substr_count( strtoupper($tweet->text), strtoupper(get_option( 'twit_blog_twitter_filter' ) ) ) ) {
+                $tmp_result[] = $tweet;
             }
+        }
+        $result = $tmp_result;
+        
+        foreach ( array_reverse($result) as $tweet ) {
             
-            /* Default empty array if needed */
-            if (!is_array($result)) { $result = array(); }
+            /* If tweet is new */
+            if ( 0 == substr_count( get_option( 'twit_blog_post_id_list' ), $tweet->id_str ) ) {
             
-            /* Filter results */
-            $tmp_result = array();
-            foreach ( $result as $tweet ){
-                if ( 0 != substr_count( strtoupper($tweet->text), strtoupper(get_option( 'twit_blog_twitter_filter' ) ) ) ) {
-                    //echo '<p>'.substr_count( $tweet->text, get_option( 'twit_blog_twitter_data_custom' ) ).' "'.get_option( 'twit_blog_twitter_data_custom' ).'" "'.$tweet->text.'"</p>';
-                    $tmp_result[] = $tweet;
-                }
+                /* Create Blog Post */
+                twit_blog_insert_post( $tweet );
+                
+                /* Store tweet id in list */
+                $list = $tweet->id_str.','.get_option( 'twit_blog_post_id_list' );
+                update_option( 'twit_blog_post_id_list', $list );
             }
-            $result = $tmp_result;
-            
-            foreach ( array_reverse($result) as $tweet ) {
-                
-                /* If tweet is new */
-                if ( 0 == substr_count( get_option( 'twit_blog_post_id_list' ), $tweet->id_str ) ) {
-                
-                    /* Create Blog Post */
-                    twit_blog_insert_post( $tweet );
-                    
-                    /* Store tweet id in list */
-                    $list = $tweet->id_str.','.get_option( 'twit_blog_post_id_list' );
-                    update_option( 'twit_blog_post_id_list', $list );
-                }
-            }            
-            //echo '<pre>'; print_r($result); echo '</pre>'; /* Show twitter response data */
-        } 
+        }            
     }
 }
  
@@ -97,8 +93,9 @@ register_activation_hook( __FILE__,'twit_blog_install' );
 register_deactivation_hook( __FILE__, 'twit_blog_remove' );
 
 function twit_blog_install() {
-    add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' );
-    add_option( 'twit_blog_update_delay', '60', '', 'yes' );
+    /* Create default options data */
+    add_option( 'twit_blog_last_update', date('UTC'), '', 'yes' ); /* MARKED FOR REMOVAL */
+    add_option( 'twit_blog_update_delay', '60', '', 'yes' );       /* MARKED FOR REMOVAL */
     add_option( 'twit_blog_post_id_list', '', '', 'yes' );
     add_option( 'twit_blog_post_author', '0', '', 'yes' );
     add_option( 'twit_blog_post_category', '0', '', 'yes' );
@@ -110,11 +107,15 @@ function twit_blog_install() {
     add_option( 'twit_blog_twitter_account', '', '', 'yes' );
     add_option( 'twit_blog_twitter_data', 'none', '', 'yes' );
     add_option( 'twit_blog_twitter_filter', '', '', 'yes' );
+    
+    /* Run plugin hourly */
+    wp_schedule_event(time(), 'hourly', 'twit_blog');
 }
 
 function twit_blog_remove(){
-    delete_option( 'twit_blog_last_update' );
-    delete_option( 'twit_blog_update_delay' );
+    /* Clean up options data */
+    delete_option( 'twit_blog_last_update' );  /* MARKED FOR REMOVAL */
+    delete_option( 'twit_blog_update_delay' ); /* MARKED FOR REMOVAL */
     delete_option( 'twit_blog_post_id_list' );
     delete_option( 'twit_blog_post_author' );
     delete_option( 'twit_blog_post_category' );
@@ -126,12 +127,16 @@ function twit_blog_remove(){
     delete_option( 'twit_blog_twitter_account' );
     delete_option( 'twit_blog_twitter_data' );
     delete_option( 'twit_blog_twitter_filter' );
+    
+    /* Scrub cron task */
+    wp_clear_scheduled_hook('twit_blog');
 }
 
 /* Plugin Settings Page */
 if(is_admin()){ add_action( 'admin_menu','twit_blog_options_page' ); }
 
 function twit_blog_register_settings(){
+    /* Register options as configurable on the settings page */
     register_setting( 'twit_blog_options', 'twit_blog_post_author' );
     register_setting( 'twit_blog_options', 'twit_blog_post_category' );
     register_setting( 'twit_blog_options', 'twit_blog_consumer_key' );
@@ -156,7 +161,6 @@ function twit_blog_options_html() {
 }
 
 /* Plugin settings link on Plugins list */
-
 add_filter('plugin_action_links', 'twit_blog_settings_link', 10, 2 );
 
 function twit_blog_settings_link($links, $file){
