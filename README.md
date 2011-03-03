@@ -5,7 +5,7 @@ A WordPress plugin to create posts from the favourites in a twitter account.
 
 **Author**: Craig Russell   
 **Date**: 23 Feb 2011   
-**Version**: 0.1   
+**Version**: 0.1.1    
 
 Including **twitteroauth.php** by Abraham Williams (abraham@abrah.am) http://abrah.am
 
@@ -31,3 +31,5 @@ Stores tweet information in post meta for use by custom themes.
 -   Tweet Author
 -   Tweet ID Number
 -   Author Profile image URL
+
+Updates scheduled to run hourly
